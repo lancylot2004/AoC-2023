@@ -5,31 +5,43 @@ Advent of Code solutions for 2023, in Python.
 - Code is usually not very good - I'm going for speed (points), not Employee of the Month :)
 - Lots of repos delete their own `input.txt` before pushing - I respect that, but have kept mine so you can try out the code without having to fetch input files.
 
-At some point along the way, I finally wrote a template - for loading files, calculating time taken and the such. If that's what you came for, here it is!
+## Common Issues
 
-```Python
-from time import perf_counter_ns
+Given the speedy nature of the code, here are a few common edge cases which ignore. 
 
-def getLines(path = "input.txt"):
-	with open(path, 'r') as file:
-		for line in file:
-			yield line
+- Trailing newlines in input - I always delete them manually.
 
-def timeAndPrint(name, fun, *args):
-	start = perf_counter_ns()
-	res = fun(*args)
-	end = perf_counter_ns()
-	print(f"{name} after {(end - start) / 1_000_000:.3f}ms: {res}")
+## Template
 
-def timeAvgAndPrint(name, repeats, fun, *args):
-	times = []
-	res = None
-	for _ in range(repeats):
-		start = perf_counter_ns()
-		res = fun(*args)
-		end = perf_counter_ns()
-		times.append(end - start)
+At some point along the way I decided that manually writing boilerplate code for each day was a 
+waste of time, so I wrote `template.py`. It's hacky, and consists of `getLines`, `timeAndPrint` and
+`timeAvgAndPrint`. 
 
-	avgTime = sum(times) / len(times)
-	print(f"{name} after avg. {avgTime / 1_000_000:.3f}ms: {res}")
+The folder structure it requires is as follows:
 ```
+__init__.py
+template.py
+inputs/
+	1.txt
+	2.txt
+	...
+1.py
+2.py
+...
+```
+
+Then, in each day's file (e.g., `1.py`), add the following:
+```Python
+from template import getLines, timeAvgAndPrint
+
+# ...
+
+if __name__ == "__main__":
+    someArgs, someMoreArgs = getLines(0)
+    timeAvgAndPrint("Part 1", 100, partOne, someArgs, someMoreArgs)
+    timeAvgAndPrint("Part 2", 100, partTwo, someArgs)
+```
+
+The template, although minimal, is resistant against
+- Your functions modifying inputs.
+- Literally nothing else - it's a very hacky template.
