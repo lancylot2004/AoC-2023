@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+# Requirements: regex
 
 import regex as re
+from time import perf_counter_ns
 
 MATCH = {
 	'one': 1,
@@ -14,17 +15,44 @@ MATCH = {
 	'nine':  9
 }
 
+INT_PATTERN = r"\d"
 PATTERN = r"(one|two|three|four|five|six|seven|eight|nine|[0-9])"
 
-with open('input.txt', 'r') as file:
+def parseDigits(path):
+	with open(path, 'r') as file:
+		return file.readlines()
+	
+# === Part One ===
+def partOne(lines):
 	total = 0
-	for line in file:
-			
+	
+	for line in lines:
+		digits = re.findall(INT_PATTERN, line)
+		num = int(digits[0]) * 10 + int(digits[-1])
+		total += num
+	
+	return total
+
+# === Part Two ===
+def partTwo(lines):
+	total = 0
+	
+	for line in lines:
 		digits = [
 			int(item) if len(item) == 1 else MATCH[item]
 			for item in re.findall(PATTERN, line, overlapped=True)
 		]
 		num = int(digits[0]) * 10 + int(digits[-1])
-		print(num)
 		total += num
-	print(total)
+	
+	return total
+
+# === Run ===
+if __name__ == "__main__":
+	start = perf_counter_ns()
+	lines = parseDigits("input.txt")
+	print(f"Part One: {partOne(lines)}")
+	print(f"Part Two: {partTwo(lines)}")
+	end = perf_counter_ns()
+	print(f"Took {(end - start) / 1_000:.3f}us")
+	
