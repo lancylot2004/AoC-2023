@@ -5,11 +5,21 @@ Advent of Code solutions for 2023, in Python.
 - Code is usually not very good - I'm going for speed (points), not Employee of the Month :)
 - Lots of repos delete their own `input.txt` before pushing - I respect that, but have kept mine so you can try out the code without having to fetch input files.
 
+## Requirements
+
+Alas, I know I am very lazy, but I like to take shortcuts and not write extra code wherever I can.
+Hence, some of my solutions require extra packages:
+
+- **Day 1**: `regex` for overlapping matches.
+- **Day 3**: `scipy` for `convolve2d`, and `numpy` for general maths.
+- **Day 5**: `intervaltree` for fast interval lookups.
+
 ## Common Issues
 
 Given the speedy nature of the code, here are a few common edge cases which ignore. 
 
 - Trailing newlines in input - I always delete them manually.
+- Some things can't be pickled by `deepcopy` in the template - usually generators. Just convert them to lists.
 
 ## Template
 
