@@ -1,7 +1,6 @@
-# Requirements: regex
-
 import regex as re
-from time import perf_counter_ns
+
+from template import getLines, timeAvgAndPrint
 
 MATCH = {
 	'one': 1,
@@ -17,10 +16,6 @@ MATCH = {
 
 INT_PATTERN = r"\d"
 PATTERN = r"(one|two|three|four|five|six|seven|eight|nine|[0-9])"
-
-def parseDigits(path):
-	with open(path, 'r') as file:
-		return file.readlines()
 	
 # === Part One ===
 def partOne(lines):
@@ -49,10 +44,8 @@ def partTwo(lines):
 
 # === Run ===
 if __name__ == "__main__":
-	start = perf_counter_ns()
-	lines = parseDigits("input.txt")
-	print(f"Part One: {partOne(lines)}")
-	print(f"Part Two: {partTwo(lines)}")
-	end = perf_counter_ns()
-	print(f"Took {(end - start) / 1_000:.3f}us")
+	lines = list(getLines(1))
+
+	timeAvgAndPrint("Part One", 100, partOne, lines)
+	timeAvgAndPrint("Part Two", 100, partTwo, lines)
 	

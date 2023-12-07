@@ -1,6 +1,8 @@
 from functools import reduce
 import re
 
+from template import getLines, timeAvgAndPrint
+
 LINE_PATTERN = r"Game (\d{1,3}): (.*?)$"
 BAG = {
 	"red": 12,
@@ -8,7 +10,6 @@ BAG = {
 	"blue": 14
 }
 
-# === Part One ===
 def checkReveal(reveal):
 	color, count = reveal
 	
@@ -30,17 +31,17 @@ def parseLine(line):
 	
 	return id, games
 
-def partOne(path):
+# === Part One ===
+def partOne():
 	sumInd = 0
 	
-	with open(path, 'r') as file:
-		for line in file:
-			id, games = parseLine(line)
-			
-			if all([checkGame(game) for game in games]):
-				sumInd += int(id)
+	for line in getLines(2):
+		id, games = parseLine(line)
+		
+		if all([checkGame(game) for game in games]):
+			sumInd += int(id)
 	
-	print(f"Part One: {sumInd}")
+	return sumInd
 			
 # === Part Two ===
 
@@ -52,16 +53,10 @@ def getLinePow(line):
 	}
 	return reduce(lambda x, y: x * y, list(result.values()))
 	
-def partTwo(path):
-	sumPow = 0
-	
-	with open(path, 'r') as file:
-		for line in file:
-			sumPow += getLinePow(line)
-
-	print(f"Part Two: {sumPow}")
+def partTwo():
+	return sum(getLinePow(line) for line in getLines(2))
 			
 # === Run ===
 if __name__ == "__main__":
-	partOne("input.txt")
-	partTwo("input.txt")
+	timeAvgAndPrint("Part One", 100, partOne)
+	timeAvgAndPrint("Part Two", 100, partTwo)

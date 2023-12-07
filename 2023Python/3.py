@@ -2,6 +2,8 @@ import numpy as np
 import re
 from scipy.signal import convolve2d
 
+from template import getLines, timeAvgAndPrint
+
 KERNEL = np.array([
 	[1, 1, 1],
 	[1, 0, 1],
@@ -11,9 +13,8 @@ PATTERN = r"\d+"
 NON_SYMBOLS = np.array(list("0123456789."))
 
 # === Part One ===
-def loadSchem(path):
-	with open(path, 'r') as file:
-		return np.array([list(line.strip()) for line in file])
+def loadSchem():
+	return np.array([list(line.strip()) for line in getLines(3)])
 
 def partOne(lines):
 	sumParts = 0
@@ -59,6 +60,7 @@ def partTwo(schem):
 
 # === Run ===
 if __name__ == "__main__":
-	schem = loadSchem('2023_3_input.txt')
-	print(partOne(schem))
-	print(partTwo(schem))
+	schem = loadSchem()
+
+	timeAvgAndPrint("Part One", 100, partOne, schem)
+	timeAvgAndPrint("Part Two", 100, partTwo, schem)
