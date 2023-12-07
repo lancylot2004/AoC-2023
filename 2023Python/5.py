@@ -2,38 +2,41 @@ from intervaltree import IntervalTree, Interval
 from itertools import chain
 import re
 
+from template import getLines, timeAvgAndPrint
+
 SEED_PATTERN = r"seeds:(.*)"
 MAP_TITLE_PATTERN = r"(\w*)-to-(\w*)"
 MAP_PATTERN = r""
 
-def parseMaps(path):
-    with open(path, 'r') as file:
-        # Extract initial seeds.
-        initSeeds = [int(seed) for seed in re.findall(SEED_PATTERN, next(file))[0].strip().split(' ')]
-        parseNew = False
+def parseMaps():
+    lines = getLines(5)
 
-        maps, orig, dest = {}, "", ""
+    # Extract initial seeds.
+    initSeeds = [int(seed) for seed in re.findall(SEED_PATTERN, next(lines))[0].strip().split(' ')]
+    parseNew = False
 
-        for line in file:
-            # Check flag, and set current orig and dest if needed.
-            if parseNew:
-                orig, dest = re.findall(MAP_TITLE_PATTERN, line)[0]
-                maps[(orig, dest)] = IntervalTree()
-                parseNew = False
-                continue
+    maps, orig, dest = {}, "", ""
 
-            # When new line, prepare for next map
-            if line == '\n': 
-                parseNew = True
-                continue
+    for line in lines:
+        # Check flag, and set current orig and dest if needed.
+        if parseNew:
+            orig, dest = re.findall(MAP_TITLE_PATTERN, line)[0]
+            maps[(orig, dest)] = IntervalTree()
+            parseNew = False
+            continue
 
-            # In the absence of flags, add values to current map.
-            destStart, origStart, howMany = [int(val) for val in line.strip().split(' ')]
-            origEnd = origStart + howMany - 1
-            destEnd = destStart + howMany - 1
-            maps[(orig, dest)].addi(origStart, origEnd + 1, (destStart, destEnd))
+        # When new line, prepare for next map
+        if line == '\n': 
+            parseNew = True
+            continue
 
-        return initSeeds, maps
+        # In the absence of flags, add values to current map.
+        destStart, origStart, howMany = [int(val) for val in line.strip().split(' ')]
+        origEnd = origStart + howMany - 1
+        destEnd = destStart + howMany - 1
+        maps[(orig, dest)].addi(origStart, origEnd + 1, (destStart, destEnd))
+
+    return initSeeds, maps
 
 def findNextAttrib(currAttrib, maps):
     """Finds the next item in the 'chain' of attributes in the map."""
@@ -128,9 +131,8 @@ def partTwo(seedTree, maps):
 
 
 if __name__ == "__main__":
-    initSeeds, maps = parseMaps("input.txt")
-    print(partOne(initSeeds, maps))
-    
-    initSeeds, maps = parseMaps("input.txt")
+    initSeeds, maps = parseMaps()
     seedTrees = initSeedToRange(initSeeds)
-    print(partTwo(seedTrees, maps))
+
+    timeAvgAndPrint("Part One", 100, partOne, initSeeds, maps)
+    timeAvgAndPrint("Part Two", 100, partTwo, seedTrees, maps)

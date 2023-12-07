@@ -1,18 +1,17 @@
-#!/usr/bin/env python3
-
 import re
 from functools import cache
+
+from template import getLines, timeAvgAndPrint
 
 PATTERN = r":(.*)\|(.*)"
 
 def strToSet(input):
 	return frozenset(map(int, filter(None, input.strip().split(' '))))
 
-def parseInput(path):
-	with open(path, 'r') as file:
-		cards = filter(None, [next(iter(re.findall(PATTERN, line)), None) for line in file])
-		cards = [(strToSet(card[0]), strToSet(card[1])) for card in cards]
-		return cards
+def parseInput():
+	lines = getLines(4)
+	cards = filter(None, [next(iter(re.findall(PATTERN, line)), None) for line in lines])
+	return[(strToSet(card[0]), strToSet(card[1])) for card in cards]
 
 @cache
 def numWinning(card):
@@ -44,7 +43,8 @@ def partTwo(cards):
 
 # === RUN ===
 if __name__ == "__main__":
-	cards = parseInput("input.txt")
-	print(f"Part One: {partOne(cards)}")
-	print(f"Part Two: {partTwo(cards)}")
+	cards = parseInput()
+
+	timeAvgAndPrint("Part One", 100, partOne, cards)
+	timeAvgAndPrint("Part Two", 100, partTwo, cards)
 	
