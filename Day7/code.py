@@ -3,7 +3,31 @@
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum
+
 from time import perf_counter_ns
+
+def getLines(path = "input.txt"):
+	with open(path, 'r') as file:
+		for line in file:
+			yield line
+			
+def timeAndPrint(name, fun, *args):
+	start = perf_counter_ns()
+	res = fun(*args)
+	end = perf_counter_ns()
+	print(f"{name} after {(end - start) / 1_000_000:.3f}ms: {res}")
+
+def timeAvgAndPrint(name, repeats, fun, *args):
+	times = []
+	res = None
+	for _ in range(repeats):
+		start = perf_counter_ns()
+		res = fun(*args)
+		end = perf_counter_ns()
+		times.append(end - start)
+	
+	avgTime = sum(times) / len(times)
+	print(f"{name} after avg. {avgTime / 1_000_000:.3f}ms: {res}")
 
 Type = Enum('Type', [
 	"HIGH_CARD",
@@ -56,22 +80,17 @@ class Card:
 		
 		raise ValueError("AoC has screwed me over or something...")
 
-def parseInput(path):
-	with open(path, 'r') as file:
-		cardsAndBids = [line.strip().split(' ') for line in file]
-		return [(Card(pair[0]), int(pair[1])) for pair in cardsAndBids]
+def parseInput():
+	cardsAndBids = [line.strip().split(' ') for line in getLines()]
+	return [(Card(pair[0]), int(pair[1])) for pair in cardsAndBids]
 		
 # === Part One ===
 def partOne(cardsAndBids):
 	return sum([(ind + 1) * cardAndBid[1] for ind, cardAndBid in enumerate(sorted(cardsAndBids, key = lambda x: x[0]))])
 
 if __name__ == "__main__":
-	cardsAndBids = parseInput("input.txt")
-	
-	start = perf_counter_ns()
-	print(f"Part One: {partOne(cardsAndBids)}")
+	cardsAndBids = parseInput()
+	timeAvgAndPrint("Part One", 100, partOne, cardsAndBids)
 	PART_TWO_FLAG = True
 	CARDS = ['J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A']
-	print(f"Part Two: {partOne(cardsAndBids)}")
-	end = perf_counter_ns()
-	print(f"Took {(end - start) / 1_000:.3f}us")
+	timeAvgAndPrint("Part Two", 100, partOne, cardsAndBids)
