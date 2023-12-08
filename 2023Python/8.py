@@ -20,7 +20,7 @@ def partOne(inst, nodes):
     currNode = "AAA"
 
     while currNode != "ZZZ":
-        currNode = nodes[currNode][0] if inst[steps % len(inst)] == 'L' else nodes[currNode][1]
+        currNode = nodes[currNode][0 if inst[steps % len(inst)] == 'L' else 1]
         steps += 1
     
     return steps
@@ -28,17 +28,17 @@ def partOne(inst, nodes):
 # === Part Two ===
 def partTwo(inst, nodes):
     aNodes = [key for key in nodes.keys() if key.endswith('A')]
-    cycleLengths = []
+    currLength = 1
 
     for aNode in aNodes:
         tmpSteps = 0
         currNode = aNode
         while not currNode.endswith('Z'):
-            currNode = nodes[currNode][0] if inst[tmpSteps % len(inst)] == 'L' else nodes[currNode][1]
+            currNode = nodes[currNode][0 if inst[tmpSteps % len(inst)] == 'L' else 1]
             tmpSteps += 1
-        cycleLengths.append(tmpSteps)
+        currLength = lcm(currLength, tmpSteps)
     
-    return lcm(*cycleLengths)
+    return currLength
 
 if __name__ == "__main__":
     inst, nodes = parseMap()
