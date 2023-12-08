@@ -1,5 +1,4 @@
-from intervaltree import IntervalTree, Interval
-from itertools import chain
+from intervaltree import IntervalTree
 import re
 
 from template import getLines, timeAvgAndPrint
