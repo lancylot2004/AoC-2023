@@ -1,13 +1,12 @@
 # AoC-2023
 
-Advent of Code solutions for 2023, in Python (3.11).
-
-- Code is usually not very good - I'm going for speed (points), not Employee of the Month :)
-- Lots of repos delete their own `input.txt` before pushing - I respect that, but have kept mine so you can try out the code without having to fetch input files.
+Advent of Code solutions for 2023, in Python (3.11). Code is usually not very good - I'm going for 
+speed (points), not Employee of the Month :)
 
 ## Requirements
 
-Alas, I know I am very lazy, but I like to take shortcuts and not write extra code wherever I can. Hence, some of my solutions require extra packages:
+Alas, I know I am very lazy, so I like to take shortcuts and not write extra code wherever I can. 
+Hence, some of my solutions require extra packages:
 
 - **Day 1**: `regex` for overlapping matches.
 - **Day 3**: `scipy` for `convolve2d`, and `numpy` for general maths.
@@ -67,6 +66,6 @@ I'm not sure why you've read so far - but since you have, here are some outlines
 | 5   | This one was also tricky. Part 1 could literally be hacked together with lists of numbers, but Part 2 required a more efficient solution. I chose `IntervalTree`s to simplify the numerous numbers to smaller ranges, and implemented custom methods for partial intersection and difference, since the original library does not consider these cases. |
 | 6   | Technically does not even require code to solve - do some maths before you dig in! |
 | 7   | Categorsation and comparison of hands was the key here. I chose to make a custom `@dataclass`, but there must be more efficient ways. |
-| 8   | Part 1 could be hacked together with a simple while loop, but Part 2 required some more efficiency. I chose to simply store length of each cycle (time taken to get to a `\w{2}Z` node), and find their `lcm` - again, try maths! |
-| 9   |       |
-| 10  | Another "curve-ball in part 2". It turns out you can simply count the number of "border-crossings" a point has to the left (or right), and if it is odd, that means it is inside of the shape. In fact, since the question guarentees a valid loop, you only have to look for any one of `|JL`. Or, if you're feeling particularly lazy, use `shapely`! |
+| 8   | Part 1 could be hacked together with a simple while loop, but Part 2 required some more efficiency. I chose to store length of each cycle (time taken to get to a `\w{2}Z` node), and find their `lcm` - again, try maths! |
+| 9   | Part one is the tail of the first sequence plus all the subsequent tails of the differences, and part two is the tail of the first minus all subsequent tails. |
+| 10  | Another "curve-ball in part 2". It turns out you can just count the number of "border-crossings" a point has to the left (or right), and if it is odd, that means it is inside of the shape. In fact, since the question guarentees a valid loop, you only have to look for any one of `|JL`. Or, if you're feeling particularly lazy, use `shapely`! |
