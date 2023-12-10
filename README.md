@@ -12,6 +12,7 @@ Alas, I know I am very lazy, but I like to take shortcuts and not write extra co
 - **Day 1**: `regex` for overlapping matches.
 - **Day 3**: `scipy` for `convolve2d`, and `numpy` for general maths.
 - **Day 5**: `intervaltree` for fast interval lookups.
+- **Day 10**: `numpy` for general maths, and (**optional**) `shapely` for polygons.
 
 ## Common Issues
 
@@ -67,3 +68,5 @@ I'm not sure why you've read so far - but since you have, here are some outlines
 | 6   | Technically does not even require code to solve - do some maths before you dig in! |
 | 7   | Categorsation and comparison of hands was the key here. I chose to make a custom `@dataclass`, but there must be more efficient ways. |
 | 8   | Part 1 could be hacked together with a simple while loop, but Part 2 required some more efficiency. I chose to simply store length of each cycle (time taken to get to a `\w{2}Z` node), and find their `lcm` - again, try maths! |
+| 9   |       |
+| 10  | Another "curve-ball in part 2". It turns out you can simply count the number of "border-crossings" a point has to the left (or right), and if it is odd, that means it is inside of the shape. In fact, since the question guarentees a valid loop, you only have to look for any one of `|JL`. Or, if you're feeling particularly lazy, use `shapely`! |
