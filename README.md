@@ -6,12 +6,13 @@ speed (points), not Employee of the Month :)
 ## Requirements
 
 Alas, I know I am very lazy, so I like to take shortcuts and not write extra code wherever I can. 
-Hence, some of my solutions require extra packages:
+Hence, some of my solutions require extra(non-inbuilt) packages:
 
 - **Day 1**: `regex` for overlapping matches.
 - **Day 3**: `scipy` for `convolve2d`, and `numpy` for general maths.
 - **Day 5**: `intervaltree` for fast interval lookups.
 - **Day 10**: `numpy` for general maths, and (**optional**) `shapely` for polygons.
+- **Day 11**: `numpy` for general maths.
 
 ## Common Issues
 
@@ -69,3 +70,4 @@ I'm not sure why you've read so far - but since you have, here are some outlines
 | 8   | Part 1 could be hacked together with a simple while loop, but Part 2 required some more efficiency. I chose to store length of each cycle (time taken to get to a `\w{2}Z` node), and find their `lcm` - again, try maths! |
 | 9   | Part one is the tail of the first sequence plus all the subsequent tails of the differences, and part two is the tail of the first minus all subsequent tails. |
 | 10  | Another "curve-ball in part 2". It turns out you can just count the number of "border-crossings" a point has to the left (or right), and if it is odd, that means it is inside of the shape. In fact, since the question guarentees a valid loop, you only have to look for any one of `|JL`. Or, if you're feeling particularly lazy, use `shapely`! |
+| 11  | The optimisation in Part 2, as before, is all about considering the empty rows and column in abstract form. Since we are essentially computing a modified `cityblock` considering expansion factors of empty space, the distances can be precomputed. |
