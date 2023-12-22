@@ -1,10 +1,9 @@
 from collections import deque
 from typing import Generator
 import numpy as np
-import re
 import shapely
 
-from template import getLines, timeAndPrint, timeAvgAndPrint
+from template import getLines, timeAvgAndPrint
 
 OFFSETS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 PATTERN = r"F-*?J|J-*?F|L-*?7|7-*?L"
